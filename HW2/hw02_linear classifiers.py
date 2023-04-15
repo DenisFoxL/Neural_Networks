@@ -113,7 +113,10 @@ test_acc = perceptron.evaluate(X_test, y_test)
 print(f"Test accuracy: {test_acc}")
 
 print("\n\nHow is this algorithm different from the perceptron algorithm learned in class?")
-your_answer = """
-### YOUR ANSWER HERE ###
-"""
+your_answer = """In class, we learned about the Classical Perceptron algorithm, while here we have an Averaged 
+Perceptron algorithm. The Perceptron algorithm updates weights after each misclassification and uses the final weight 
+vector (the result of the training stage of the model) for prediction. The Averaged Perceptron algorithm on the other 
+hand, updates weights in a similar manner but also keeps a running sum of the averaged weight vector (weight vectors 
+that lasted more iterations gain a higher importance), where in the end the fitted weights are the averaged weights 
+resulting in higher accuracy."""
 print(your_answer)
