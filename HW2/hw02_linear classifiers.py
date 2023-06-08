@@ -19,11 +19,13 @@ class AvgPerceptron(object):
         iterations - number of iterations on the training data
         learning_rate - learning rate, how much the weight will change during update
         '''
-        self.iterations = max_epochs  # number of iterations the perceptron learning algorithm will perform (given there is no early stopping condition)
+        self.iterations = max_epochs  # number of iterations the perceptron learning algorithm will perform (given
+        # there is no early stopping condition)
         self.learning_rate = learning_rate  # the learning rate of the model
         np.random.seed(30)  # set random seed, should not be altered!
         self.bias = 0  # initializing bias as 0
-        # initializing weight vector as random values between 0 and 1; folding bias into the weight vector (from here on out we will treat the bias as part of the weight vector)
+        # initializing weight vector as random values between 0 and 1; folding bias into the weight vector (from here
+        # on out we will treat the bias as part of the weight vector)
         self.weights = np.concatenate(([self.bias], np.random.rand(n_features)))
         np.random.seed(30)
         self.u = np.concatenate(
@@ -46,7 +48,8 @@ class AvgPerceptron(object):
         Accuracy = #correct_classification / #total
         """
         predictions = self.predict(inputs)  # getting prediction vector (values are either 1 or -1)
-        comparison = labels * predictions  # multiplying labels by predictions so that if the prediction is correct the result is 1 and if incorrect then -1
+        comparison = labels * predictions  # multiplying labels by predictions so that if the prediction is correct
+        # the result is 1 and if incorrect then -1
         accuracy = np.count_nonzero(comparison == 1) / len(
             comparison)  # calculating proportion of correct predictions to total predictions
         return accuracy
@@ -60,18 +63,19 @@ class AvgPerceptron(object):
             for x, y in zip(training_inputs, train_labels):
                 if y * self.predict(x) <= 0:  # update condition
                     self.weights += self.learning_rate * y * x  # updating weight vector
-                    self.u += y * self.c * self.learning_rate * x  # updating weight cache giving bigger importance to weights that survived for longer
+                    self.u += y * self.c * self.learning_rate * x  # updating weight cache giving bigger importance
+                    # to weights that survived for longer
                 self.c += 1  # updating counter
             if verbose:
                 train_acc = self.evaluate(training_inputs, train_labels)  # assessing accuracy at current iteration
                 print(f"Iteration No.{i}, Train accuracy: {train_acc}")
-        self.weights -= (self.u / self.c) #updating weights to average weights
-        self.bias = self.weights[0] #extracting bias as the w0
+        self.weights -= (self.u / self.c)  # updating weights to average weights
+        self.bias = self.weights[0]  # extracting bias as the w0
         return self.weights, self.bias
 
 
 # Load the dataset using a numpy function: np.genfromtxt
-data = np.genfromtxt("hw02_dataset.csv", delimiter=',', dtype=np.float)  ### for local environment
+data = np.genfromtxt("hw02_dataset.csv", delimiter=',', dtype=np.float)
 
 print("print 5 rows from the data")
 print(data[:5])
@@ -113,10 +117,11 @@ test_acc = perceptron.evaluate(X_test, y_test)
 print(f"Test accuracy: {test_acc}")
 
 print("\n\nHow is this algorithm different from the perceptron algorithm learned in class?")
-your_answer = """In class, we learned about the Classical Perceptron algorithm, while here we have an Averaged 
+your_answer = """In class, we learned about the Standard Perceptron algorithm, while here we have an Averaged 
 Perceptron algorithm. The Perceptron algorithm updates weights after each misclassification and uses the final weight 
-vector (the result of the training stage of the model) for prediction. The Averaged Perceptron algorithm on the other 
-hand, updates weights in a similar manner but also keeps a running sum of the averaged weight vector (weight vectors 
-that lasted more iterations gain a higher importance), where in the end the fitted weights are the averaged weights 
-resulting in higher accuracy."""
+vector (the result of the training stage of the model) for prediction. The Averaged Perceptron algorithm updates 
+weights in a similar manner as the standard Perceptron, but additionally keeps a running sum of the weight vector at 
+each iteration (weight vectors that lasted more iterations gain higher importance). In the end, the fitted weights 
+are obtained by averaging these accumulated weight vectors, resulting in higher accuracy compared to the standard 
+Perceptron."""
 print(your_answer)
